@@ -1,0 +1,36 @@
+# Byte-code files
+*.pyc
+__pycache__/
+
+# Distribution / build
+/dist
+/build
+
+# Virtual environments
+.venv/
+venv/
+
+# IDE and editor files
+.vscode/
+.idea/
+.ropeproject/
+.ruff_cache/
+
+# OS-specific files
+.DS_Store
+
+# Project-specific generated files
+/node.proc.log
+/pyright_report.json
+/.koi/
+event_queues.json
+
+# Other potential generated files (add as needed)
+*.egg-info/
+
+# Configuration files (if not meant to be tracked, but config.yaml is tracked here)
+# If you have local overrides like config.local.yaml, add them here:
+# config.local.yaml
+.zed/
+#.koi/
+.docs

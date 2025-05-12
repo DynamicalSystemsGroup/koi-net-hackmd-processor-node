@@ -1,0 +1,20 @@
+server:
+  host: 127.0.0.1
+  port: 8002
+  path: /koi-net
+koi_net:
+  node_name: processor_hackmd
+  node_rid: orn:koi-net.node:processor_hackmd+62eabec3-ed43-4122-94cc-ea7aa8701fde
+  node_profile:
+    base_url: http://127.0.0.1:8002/koi-net
+    node_type: FULL
+    provides:
+      event: []
+      state: []
+  cache_directory_path: .koi/processor-hackmd
+  event_queues_path: .koi/processor-hackmd/queues.json
+  first_contact: http://127.0.0.1:8000/koi-net
+fetch_retry_initial: 30
+fetch_retry_multiplier: 2
+fetch_retry_max_attempts: 3
+index_db_path: .koi/index_db/index.db
