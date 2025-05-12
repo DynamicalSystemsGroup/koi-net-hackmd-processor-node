@@ -10,6 +10,7 @@
 A specialized Knowledge Organization Infrastructure (KOI) node that processes and indexes HackMD notes. This processor node subscribes to HackMD events from sensor nodes, stores the notes in a searchable database, and provides both KOI-net protocol integration and a user-friendly API for accessing the indexed notes.
 
 ## Key Benefits
+
 - **Comprehensive Indexing**: Indexes all note content, metadata, and history
 - **Advanced Search**: Full-text search across all indexed notes
 - **Detailed Tracking**: Complete revision history with timestamps
@@ -17,6 +18,7 @@ A specialized Knowledge Organization Infrastructure (KOI) node that processes an
 - **Simple Access**: Clean REST API and CLI tools for retrieving notes
 
 ## Table of Contents
+
 - [Installation](#installation)
 - [Quick Start](#quick-start)
 - [Usage](#usage)
@@ -120,19 +122,19 @@ The HackMD Processor comes with a CLI tool for exploring indexed notes:
 
 ```bash
 # List all indexed notes
-python cli_hackmd.py list
+python cli.py list
 
 # Show a specific note (formatted with Markdown)
-python cli_hackmd.py show <note-id>
+python cli.py show <note-id>
 
 # Show history for a specific note
-python cli_hackmd.py history <note-id>
+python cli.py history <note-id>
 
 # Search notes by content
-python cli_hackmd.py search "search term"
+python cli.py search "search term"
 
 # Display statistics about indexed notes
-python cli_hackmd.py stats
+python cli.py stats
 ```
 
 ### Using the API
@@ -162,23 +164,23 @@ print(f"Found {len(search_results)} notes matching the search query")
 
 The processor is configured using a YAML file with the following options:
 
-| Option | Default | Description | Required |
-|--------|---------|-------------|----------|
-| `server.host` | `127.0.0.1` | Host address to bind the server to | Yes |
-| `server.port` | `8001` | Port to listen on | Yes |
-| `server.path` | `/koi-net` | Base path for KOI-net API endpoints | Yes |
-| `koi_net.node_name` | `processor_hackmd` | Name of this node | Yes |
-| `koi_net.node_rid` | Generated | Unique RID for this node | No |
-| `koi_net.node_profile.base_url` | Based on server config | Base URL for this node's API | No |
-| `koi_net.node_profile.node_type` | `FULL` | Node type (FULL or PARTIAL) | Yes |
-| `koi_net.node_profile.provides` | Empty lists | RID types provided by this node | Yes |
-| `koi_net.cache_directory_path` | `.koi/processor-hackmd/cache` | Path to cache directory | Yes |
-| `koi_net.event_queues_path` | `.koi/processor-hackmd/queues.json` | Path to event queues file | Yes |
-| `koi_net.first_contact` | None | URL of first node to contact | No |
-| `index_db_path` | `.koi/processor-hackmd/index.db` | Path to SQLite database | Yes |
-| `fetch_retry_initial` | `30` | Initial retry delay in seconds | No |
-| `fetch_retry_multiplier` | `2` | Backoff multiplier for retries | No |
-| `fetch_retry_max_attempts` | `3` | Maximum retry attempts | No |
+| Option                           | Default                             | Description                         | Required |
+| -------------------------------- | ----------------------------------- | ----------------------------------- | -------- |
+| `server.host`                    | `127.0.0.1`                         | Host address to bind the server to  | Yes      |
+| `server.port`                    | `8001`                              | Port to listen on                   | Yes      |
+| `server.path`                    | `/koi-net`                          | Base path for KOI-net API endpoints | Yes      |
+| `koi_net.node_name`              | `processor_hackmd`                  | Name of this node                   | Yes      |
+| `koi_net.node_rid`               | Generated                           | Unique RID for this node            | No       |
+| `koi_net.node_profile.base_url`  | Based on server config              | Base URL for this node's API        | No       |
+| `koi_net.node_profile.node_type` | `FULL`                              | Node type (FULL or PARTIAL)         | Yes      |
+| `koi_net.node_profile.provides`  | Empty lists                         | RID types provided by this node     | Yes      |
+| `koi_net.cache_directory_path`   | `.koi/processor-hackmd/cache`       | Path to cache directory             | Yes      |
+| `koi_net.event_queues_path`      | `.koi/processor-hackmd/queues.json` | Path to event queues file           | Yes      |
+| `koi_net.first_contact`          | None                                | URL of first node to contact        | No       |
+| `index_db_path`                  | `.koi/processor-hackmd/index.db`    | Path to SQLite database             | Yes      |
+| `fetch_retry_initial`            | `30`                                | Initial retry delay in seconds      | No       |
+| `fetch_retry_multiplier`         | `2`                                 | Backoff multiplier for retries      | No       |
+| `fetch_retry_max_attempts`       | `3`                                 | Maximum retry attempts              | No       |
 
 ### Sample Configuration File
 
@@ -216,6 +218,7 @@ All KOI-net protocol endpoints are exposed under the `/koi-net` prefix:
 Receives events broadcast from other nodes.
 
 **Request Body:**
+
 ```json
 {
   "events": [
@@ -234,8 +237,9 @@ Receives events broadcast from other nodes.
 ```
 
 **Response:**
+
 ```json
-{"status": "ok"}
+{ "status": "ok" }
 ```
 
 #### POST /koi-net/events/poll
@@ -243,6 +247,7 @@ Receives events broadcast from other nodes.
 Allows partial nodes to poll for events.
 
 **Request Body:**
+
 ```json
 {
   "rid": "orn:koi-net.node:some-node+uuid",
@@ -251,6 +256,7 @@ Allows partial nodes to poll for events.
 ```
 
 **Response:**
+
 ```json
 {
   "events": []
@@ -262,6 +268,7 @@ Allows partial nodes to poll for events.
 Retrieves RIDs of a specific type.
 
 **Request Body:**
+
 ```json
 {
   "rid_types": ["orn:hackmd.note"]
@@ -269,12 +276,10 @@ Retrieves RIDs of a specific type.
 ```
 
 **Response:**
+
 ```json
 {
-  "rids": [
-    "orn:hackmd.note:abcdef123456",
-    "orn:hackmd.note:ghijkl789012"
-  ]
+  "rids": ["orn:hackmd.note:abcdef123456", "orn:hackmd.note:ghijkl789012"]
 }
 ```
 
@@ -283,6 +288,7 @@ Retrieves RIDs of a specific type.
 Retrieves manifests for specific RIDs.
 
 **Request Body:**
+
 ```json
 {
   "rids": ["orn:hackmd.note:abcdef123456"]
@@ -290,6 +296,7 @@ Retrieves manifests for specific RIDs.
 ```
 
 **Response:**
+
 ```json
 {
   "manifests": [
@@ -308,6 +315,7 @@ Retrieves manifests for specific RIDs.
 Retrieves full bundles for specific RIDs.
 
 **Request Body:**
+
 ```json
 {
   "rids": ["orn:hackmd.note:abcdef123456"]
@@ -315,6 +323,7 @@ Retrieves full bundles for specific RIDs.
 ```
 
 **Response:**
+
 ```json
 {
   "bundles": [
@@ -344,11 +353,13 @@ Retrieves full bundles for specific RIDs.
 List all indexed notes.
 
 **Query Parameters:**
+
 - `limit` (optional): Maximum number of notes to return (default: 50)
 - `offset` (optional): Pagination offset (default: 0)
 - `search` (optional): Filter notes by search term
 
 **Response:**
+
 ```json
 [
   {
@@ -367,6 +378,7 @@ List all indexed notes.
 Get a specific note by ID.
 
 **Response:**
+
 ```json
 {
   "id": "abcdef123456",
@@ -385,9 +397,11 @@ Get a specific note by ID.
 Get history for a specific note.
 
 **Query Parameters:**
+
 - `limit` (optional): Maximum number of history entries to return (default: 20)
 
 **Response:**
+
 ```json
 [
   {
@@ -406,10 +420,12 @@ Get history for a specific note.
 Search notes by content.
 
 **Query Parameters:**
+
 - `query`: Search query
 - `limit` (optional): Maximum number of results to return (default: 20)
 
 **Response:**
+
 ```json
 [
   {
@@ -428,6 +444,7 @@ Search notes by content.
 Get statistics about indexed notes.
 
 **Response:**
+
 ```json
 {
   "total_notes": 42,
@@ -586,34 +603,41 @@ python cli_hackmd.py stats
 Contributions to the HackMD Processor are welcome! Please follow these steps:
 
 1. **Fork the Repository**
+
    - Create a fork of the repository on GitHub.
 
 2. **Clone Your Fork**
+
    ```bash
    git clone https://github.com/YOUR-USERNAME/koi-net-hackmd-processor.git
    cd koi-net-hackmd-processor
    ```
 
 3. **Create a Feature Branch**
+
    ```bash
    git checkout -b feature/your-feature-name
    ```
 
 4. **Make Changes**
+
    - Implement your changes
    - Add tests for new functionality
 
 5. **Run Tests**
+
    ```bash
    pytest
    ```
 
 6. **Commit Changes**
+
    ```bash
    git commit -am "Add your detailed commit message"
    ```
 
 7. **Push to GitHub**
+
    ```bash
    git push origin feature/your-feature-name
    ```
@@ -647,9 +671,9 @@ name: HackMD Processor CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   test:
@@ -659,31 +683,31 @@ jobs:
         python-version: [3.8, 3.9, "3.10"]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -e ".[dev]"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
 
-    - name: Lint with flake8
-      run: flake8 hackmd_processor_node
+      - name: Lint with flake8
+        run: flake8 hackmd_processor_node
 
-    - name: Test with pytest
-      run: pytest
+      - name: Test with pytest
+        run: pytest
 
-    - name: Build package
-      run: python -m build
+      - name: Build package
+        run: python -m build
 
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: dist
-        path: dist/
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: dist/
 ```
 
 ## Versioning & Changelog
@@ -701,11 +725,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Contact & Support
 
 ### Maintainers
+
 - BlockScience Team - [info@block.science](mailto:info@block.science)
 
 ### Get Help
+
 - Issue Tracker: [GitHub Issues](https://github.com/BlockScience/koi-net-hackmd-processor/issues)
 - Discussion: [GitHub Discussions](https://github.com/BlockScience/koi-net-hackmd-processor/discussions)
 
 ### Community
+
 - KOI-net Community Forum: [community.koi-net.org](https://community.koi-net.org)

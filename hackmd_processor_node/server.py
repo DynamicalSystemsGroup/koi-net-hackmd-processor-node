@@ -51,6 +51,11 @@ app = FastAPI(
     description="HackMD Processor node for KOI-net"
 )
 
+@app.get("/health", tags=["System"])
+async def health_check():
+    """Basic health check for the service."""
+    return {"status": "healthy", "node_id": str(node.identity.rid) if node.identity else "uninitialized"}
+
 # Create a router for KOI-net protocol endpoints
 koi_net_router = APIRouter(
     prefix="/koi-net",
