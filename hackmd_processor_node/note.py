@@ -40,6 +40,8 @@ class HackMDNoteService:
     def __init__(self, cache):
         self.cache = cache
         # Initialize the database
+        logger.info("Initializing database...")
+        print(f"Database initialized: {node.config.index_db_path}")
         index_db.initialize_db(node.config.index_db_path)
 
     def get_all_notes_summary(self, limit: int = 50, offset: int = 0, search_term: Optional[str] = None):

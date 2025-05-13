@@ -1,7 +1,7 @@
 import logging
 from contextlib import asynccontextmanager
 from typing import Optional, List
-from fastapi import FastAPI, HTTPException, APIRouter, Query, Depends
+from fastapi import FastAPI, HTTPException, APIRouter, Query
 from koi_net.protocol.consts import (
     BROADCAST_EVENTS_PATH,
     POLL_EVENTS_PATH,
