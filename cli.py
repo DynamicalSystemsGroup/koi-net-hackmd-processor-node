@@ -13,11 +13,12 @@ from rich.markdown import Markdown
 from hackmd_processor_node import index_db
 
 logger = logging.getLogger(__name__)
+DB_PATH = ".koi/index_db/index.db"
 
 # CLI command implementations
 async def list_notes_cmd(limit: int = 50, offset: int = 0, search: str | None = None):
     """List all tracked notes."""
-    db_path = ".koi/index_db/index.db"  # This should be configurable
+    db_path = DB_PATH  # This should be configurable
     notes = index_db.get_notes(db_path, limit=limit, offset=offset, search_term=search)
 
     if not notes:
@@ -53,7 +54,7 @@ async def list_notes_cmd(limit: int = 50, offset: int = 0, search: str | None = 
 
 async def show_note_cmd(note_id: str):
     """Show details and content of a specific note."""
-    db_path = ".koi/processor-hackmd-new/index.db"
+    db_path = DB_PATH
     note = index_db.get_note_by_id(db_path, note_id)
 
     if not note:
@@ -99,7 +100,7 @@ async def show_note_cmd(note_id: str):
 
 async def show_history_cmd(note_id: str, limit: int = 20):
     """Show history for a specific note."""
-    db_path = ".koi/processor-hackmd-new/index.db"
+    db_path = DB_PATH
 
     # First get note to verify existence and get RID
     note = index_db.get_note_by_id(db_path, note_id)
@@ -143,7 +144,7 @@ async def show_history_cmd(note_id: str, limit: int = 20):
 
 async def search_notes_cmd(query: str, limit: int = 20):
     """Search notes by content."""
-    db_path = ".koi/processor-hackmd-new/index.db"
+    db_path = DB_PATH
     results = index_db.search_notes_content(db_path, query, limit)
 
     if not results:
@@ -173,7 +174,7 @@ async def search_notes_cmd(query: str, limit: int = 20):
 
 async def show_stats_cmd():
     """Show statistics about indexed notes."""
-    db_path = ".koi/processor-hackmd-new/index.db"
+    db_path = DB_PATH
     stats = index_db.get_stats(db_path)
 
     console = Console()
